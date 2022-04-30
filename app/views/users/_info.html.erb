@@ -1,5 +1,11 @@
 <table class='table'>
-  <tr><%= image_tag @user.profile_image, size:'100x100' %></tr>
+  <tr>
+    <%if @user.profile_image.attached?%>
+      <%= image_tag @user.profile_image, size:'100x100' %>
+    <% else %>
+      <%= image_tag "no_image.jpg", size:'100x100', style:"margin:1rem;"%>
+    <%end%>
+  </tr>
   <tr>
 	  <th>name</th>
 	  <th><%= @user.name %></th>
@@ -8,10 +14,25 @@
 	  <th>introduction</th>
 	  <th><%= @user.introduction %></th>
   </tr>
+  <tr>
+	  <th>フォロー中</th>
+	  <th><%= link_to @user.followings.count, user_followings_path(@user) %></th>
+  </tr>
+  <tr>
+	  <th>フォロワー</th>
+	  <th><%= link_to @user.followers.count, user_followers_path(@user) %></th>
+  </tr>
 </table>
-　
+
 <div class='row'>
-  <%= link_to edit_user_path(@user), class: "btn btn-outline-secondary btn-block edit_user_#{@user.id}" do %>
-    <i class="fas fa-user-cog"></i>
-  <% end %>
+  <%if current_user != @user%>
+    <%if current_user.following?(@user)%>
+      <%= link_to "アンフォロー" , user_relationships_path(@user.id), method: :delete, class:"fo-btn"%>
+    <%else%>
+      <%= link_to "フォロー" ,user_relationships_path(@user.id), method: :post, class:"fo-btn"%>
+    <%end%>
+    <%= link_to edit_user_path(@user), class: "btn btn-outline-secondary btn-block edit_user_#{@user.id}" do %>
+      <i class="fas fa-user-cog"></i>
+    <% end %>
+  <%end%>
 </div>

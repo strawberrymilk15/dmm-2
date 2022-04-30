@@ -1,0 +1,7 @@
+<h1>フォロワー一覧</h1>
+
+<% if @user.exists?%>
+  <%= render 'users/index', users: @users%>
+<%else%>
+  <p>フォロワーはいません</p>
+<%end%>

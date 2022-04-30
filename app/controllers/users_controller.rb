@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     @users = User.all
     @user = User.find_by(id: current_user.id)
     @book = Book.new
+    @new_book = Book.new
   end
 
   def edit

@@ -1,0 +1,17 @@
+<h1 id="message_room"><%= @user.name %> さんとのメッセージ</h1>
+
+<div class="message_content">
+  <% @messages.each do |m| %>
+    <% if m.user_id == current_user.id %>
+      <p><%= m.message %></p>
+    <% else %>
+      <p><%= m.message %></p>
+    <% end %>
+  <% end %>
+</div>
+
+<%= form_with model: @message do |f| %>
+  <%= f.text_field :message %>
+  <%= f.hidden_field :message_room_id %>
+  <%= f.submit "送信"%>
+<% end %>
